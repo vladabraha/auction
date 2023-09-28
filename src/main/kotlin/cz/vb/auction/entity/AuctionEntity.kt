@@ -1,12 +1,16 @@
 package cz.vb.auction.entity
 
 import cz.vb.auction.dto.AuctionDto
+import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
+import jakarta.persistence.Table
 import java.math.BigDecimal
 import java.time.ZonedDateTime
 
+@Entity
+@Table(catalog = "auction")
 data class AuctionEntity(
 
     @Id
@@ -25,9 +29,17 @@ data class AuctionEntity(
         currentBid = auctionDto.currentBid,
         auctionName = auctionDto.auctionName,
         auctionStart = auctionDto.auctionStart
-    ) {
+    )
 
-    }
+    constructor() : this(
+        id = null,
+        startingPrice = BigDecimal.ZERO,
+        minBid = BigDecimal.ZERO,
+        currentBid = BigDecimal.ZERO,
+        auctionName = "",
+        auctionStart = ZonedDateTime.now()
+    )
+
 
     init {
         require(startingPrice >= BigDecimal.ZERO) { "Starting price must be non-negative" }
